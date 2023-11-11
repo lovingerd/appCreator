@@ -1,0 +1,14 @@
+[devX-Prod][cname] cname for ##APP_NAME##
+
+
+*WHO:* As a application owner
+*WHAT:* I want to have a cname associated with it,
+*WHY:* So that calling endpoints is easier
+
+h2. Acceptance criteria
+* cname *#APP_NAME##* points to ##LB##
+* devX - PROD 
+* devX template for new envs
+
+Cname only, ha proxy pool 
+

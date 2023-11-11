@@ -1,0 +1,23 @@
+  '##APP_NAME_1_WORD##' => {
+    'template' => true,
+    'backends' => 'teamio-##APP_NAME_CC##-common-stable 1-4 _teamio-##APP_NAME_CC##-common-stable._tcp.service.consul resolvers consul-resolver resolve-opts allow-dup-ip resolve-prefer ipv4',
+    'options'             => {
+      'mode'           => 'http',
+      'timeout check'  => '5s',
+      'timeout server' => '300s',
+      'balance'        => 'roundrobin',
+      'option'         => [
+        'allbackups',
+        'forwardfor',
+        'httpchk HEAD /actuator/health'
+      ]
+    },
+    'option_member'       => 'check'
+  },
+
+
+'##APP_NAME_1_WORD## hdr(host) -i -m dom ##APP_NAME_1_WORD##',
+
+'add-header X-VIP ##APP_NAME_1_WORD## if ##APP_NAME_1_WORD##',
+
+'##APP_NAME_1_WORD## if { hdr(X-VIP) ##APP_NAME_1_WORD## }',
