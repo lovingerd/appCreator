@@ -1,0 +1,34 @@
+name:teamio-companyCore-common
+owner:recruit
+type:nomad
+url template:http://config-store.deploy.services.lmc/v1/files?(version,name,path)=(1,teamio-springboot-template,%22/teamio/services/springboot/template%22)&spot=(all,common)
+meta:
+============================================= START
+package_runtime: {{package.meta.imageRuntime|default('lmc-dcteamio')}}
+service_version: {{package.meta.service_version|default('stable')}}
+app_name: 'companySettings'
+has_db_credentails: false
+docker:
+  image: dcreg.service.consul/{{package.meta.dockerRepositoryTier}}/lmc-teamio-company-settings
+  version: {{package.meta.imageVersion|default(package.version)}}
+cpu_cores: 2
+metaspace_ram_MB: 150
+xmx_ram_MB: 512
+xms_ram_MB: 256
+is_hcl: true
+
+instance_ram_MB: 512
+
+{% if env.type == "prod" or env.type == "deploy" %}
+instance_count: 3
+canary: 1
+kill_timeout: 15
+shutdown_delay: 15
+{% elif env.meta.owner | default('none') == 'teamio' or env.type == 'devel' %}
+instance_count: 2
+canary: 0
+{% else %}
+instance_count: 1
+canary: 0
+{% endif %}
+============================================= END
